@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Particles from "react-particles-js";
 import "./App.css";
+import More from "./more.svg";
+import ReactTooltip from "react-tooltip";
 
 function getName() {
   const name = localStorage.getItem("myName");
@@ -90,11 +92,17 @@ function Main({ name }) {
         <h1 style={{ fontSize: "4rem" }}>
           {h % 24}:{m < 10 ? "0" + m : m}:{s < 10 ? "0" + s : s}
         </h1>
-        {h % 24 >= 19 && <h1>Selamat Malam, {name}</h1>}
-        {h % 24 >= 15 && h <= 19 && <h1>Selamat Sore, {name}</h1>}
-        {h % 24 >= 11 && h <= 15 && <h1>Selamat Siang, {name}</h1>}
-        {h % 24 >= 5 && h <= 11 && <h1>Selamat Pagi, {name}</h1>}
-        {h % 24 >= 1 && h <= 5 && <h1>Selamat Petang, {name}</h1>}
+        <div className="row-content">
+          {h % 24 >= 19 && <h1>Selamat Malam, {name}</h1>}
+          {h % 24 >= 15 && h <= 19 && <h1>Selamat Sore, {name}</h1>}
+          {h % 24 >= 11 && h <= 15 && <h1>Selamat Siang, {name}</h1>}
+          {h % 24 >= 3 && h <= 11 && <h1>Selamat Pagi, {name}</h1>}
+          {h % 24 >= 0 && h <= 3 && <h1>Selamat Petang, {name}</h1>}
+          <img src={More} width="20px" alt="more" className="more" data-tip="React-tooltip" />
+        </div>
+        <ReactTooltip place="top" type="light" effect="float" multiline={true}>
+          <Message h={h} />
+        </ReactTooltip>
       </div>
       <div className="footer">
         <p className="quote">{quote.content}</p>
@@ -105,8 +113,19 @@ function Main({ name }) {
 }
 
 function Content({ children }) {
+  const time = new Date();
+  const h = time.getHours();
   return (
     <div
+      id={
+        h % 24 >= 19 || h % 24 < 3
+          ? "app-night"
+          : h % 24 >= 3 && h % 24 < 11
+          ? "app-morning"
+          : h % 24 >= 11 && h % 24 < 15
+          ? "app-noon"
+          : h % 24 >= 15 && h % 24 < 19 && "app-evening"
+      }
       style={{
         position: "absolute",
         top: 0,
@@ -117,59 +136,23 @@ function Content({ children }) {
     >
       <div
         style={{
-          position: "absolute",
+          position: "fixed !important",
           top: 0,
           left: 0,
           width: "100%",
           height: "100%",
         }}
       >
-        <Particles
-          params={{
-            particles: {
-              number: {
-                value: 60,
-                density: {
-                  enable: true,
-                  value_area: 1500,
-                },
-              },
-              line_linked: {
-                enable: true,
-                opacity: 0.02,
-              },
-              move: {
-                direction: "right",
-                speed: 0.05,
-              },
-              size: {
-                value: 1,
-              },
-              opacity: {
-                anim: {
-                  enable: true,
-                  speed: 1,
-                  opacity_min: 0.05,
-                },
-              },
-            },
-            interactivity: {
-              events: {
-                onclick: {
-                  enable: true,
-                  mode: "push",
-                },
-              },
-              modes: {
-                push: {
-                  particles_nb: 1,
-                },
-              },
-            },
-            retina_detect: true,
-          }}
-        />
-        {children}
+        {h % 24 >= 19 || h % 24 < 3 ? (
+          <Night />
+        ) : h % 24 >= 3 && h % 24 < 11 ? (
+          <Morning />
+        ) : h % 24 >= 11 && h % 24 < 15 ? (
+          <Noon />
+        ) : (
+          h % 24 >= 15 && h % 24 < 19 && <Evening />
+        )}
+        <div>{children}</div>
       </div>
     </div>
   );
@@ -195,5 +178,248 @@ function App() {
     );
   return <Spinner />;
 }
+
+const Night = () => {
+  return (
+    <Particles
+      params={{
+        particles: {
+          number: {
+            value: 400,
+            density: {
+              enable: true,
+              value_area: 1500,
+            },
+          },
+          line_linked: {
+            enable: false,
+            opacity: 0.02,
+          },
+          move: {
+            direction: "right",
+            speed: 0.05,
+          },
+          size: {
+            value: 1,
+          },
+          opacity: {
+            anim: {
+              enable: true,
+              speed: 1,
+              opacity_min: 0.05,
+            },
+          },
+        },
+        interactivity: {
+          events: {
+            onclick: {
+              enable: true,
+              mode: "push",
+            },
+          },
+          modes: {
+            push: {
+              particles_nb: 1,
+            },
+          },
+        },
+        retina_detect: true,
+      }}
+    />
+  );
+};
+
+const Morning = () => {
+  return (
+    <Particles
+      params={{
+        particles: {
+          number: {
+            value: 200,
+            density: {
+              enable: false,
+            },
+          },
+          size: {
+            value: 3,
+            random: true,
+            anim: {
+              speed: 4,
+              size_min: 0.3,
+            },
+          },
+          line_linked: {
+            enable: false,
+          },
+          move: {
+            random: true,
+            speed: 1,
+            direction: "top",
+            out_mode: "out",
+          },
+        },
+        interactivity: {
+          events: {
+            onhover: {
+              enable: true,
+              mode: "bubble",
+            },
+            onclick: {
+              enable: true,
+              mode: "repulse",
+            },
+          },
+          modes: {
+            bubble: {
+              distance: 250,
+              duration: 2,
+              size: 0,
+              opacity: 0,
+            },
+            repulse: {
+              distance: 400,
+              duration: 4,
+            },
+          },
+        },
+      }}
+    />
+  );
+};
+
+const Noon = () => {
+  return (
+    <Particles
+      params={{
+        particles: {
+          number: {
+            value: 150,
+            density: {
+              enable: false,
+            },
+          },
+          size: {
+            value: 10,
+            random: true,
+            anim: {
+              speed: 0.5,
+              size_min: 0.3,
+            },
+          },
+          move: {
+            direction: "right",
+            out_mode: "out",
+          },
+          line_linked: {
+            enable: false,
+          },
+        },
+        interactivity: {
+          events: {
+            onclick: {
+              enable: true,
+              mode: "remove",
+            },
+          },
+          modes: {
+            remove: {
+              particles_nb: 10,
+            },
+          },
+        },
+      }}
+    />
+  );
+};
+
+const Evening = () => {
+  return (
+    <Particles
+      params={{
+        particles: {
+          number: {
+            value: 80,
+          },
+          size: {
+            value: 2,
+            random: true,
+          },
+          move: {
+            direction: "left",
+            out_mode: "out",
+          },
+        },
+        interactivity: {
+          events: {
+            onhover: {
+              enable: true,
+              mode: "repulse",
+            },
+          },
+        },
+      }}
+    />
+  );
+};
+
+const Message = ({ h }) => {
+  if (h % 24 >= 0 && h % 24 < 2) {
+    return (
+      <p>
+        Kok belum tidur? Sudah malem lo.... <br />
+        Kesehatannya dijaga dong. Jangan begadang terus...
+      </p>
+    );
+  }
+  if (h % 24 >= 2 && h % 24 < 4) {
+    return <p>Sholat tahajud dulu yuk...</p>;
+  }
+  if (h % 24 >= 4 && h % 24 < 5) {
+    return <p>Sudah sholat subuh belum? Kalo belum sholat dulu ya!</p>;
+  }
+  if (h % 24 >= 5 && h % 24 < 6) {
+    return <p>Selamat pagi! Semangat jalani harinya</p>;
+  }
+  if (h % 24 >= 7 && h % 24 < 9) {
+    return (
+      <p>
+        Ayo sholat dhuha biar dipermudah segala urusannya! <br /> Jangan lupa sarapan juga!{" "}
+      </p>
+    );
+  }
+  if (h % 24 >= 9 && h % 24 < 11) {
+    return <p>Selamat Beraktifitas !</p>;
+  }
+  if (h % 24 >= 11 && h % 24 < 15) {
+    return (
+      <p>
+        Sholat zuhur yuk! udah masuk waktunya nih! <br /> Jangan lupa makan siang juga ya{" "}
+      </p>
+    );
+  }
+  if (h % 24 >= 15 && h % 24 < 16) {
+    return <p>Sudah masuk waktu ashar nih! Sholat yuk! habis itu main lagi</p>;
+  }
+  if (h % 24 >= 16 && h % 24 < 18) {
+    return <p>Mandi sana bau ih....</p>;
+  }
+  if (h % 24 >= 18 && h % 24 < 19) {
+    return <p>Maghrib woy!!</p>;
+  }
+  if (h % 24 >= 19 && h % 24 < 20) {
+    return <p>Isya telah datang! Sholat dulu yuk biar nanti malem nggak kelupaan</p>;
+  }
+  if (h % 24 >= 20 && h % 24 < 22) {
+    return (
+      <p>
+        Lagi ngapain nih? Udah makan apa belum? <br /> Kalo belum makan dulu ya?
+      </p>
+    );
+  }
+  if (h % 24 >= 22 && h % 24 < 24) {
+    return <p>Tidur dong udah jam {h % 12} nih! jangan begadang ya?</p>;
+  }
+  return <p>Hai!!</p>;
+};
 
 export default App;

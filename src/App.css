@@ -1,13 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Nunito&display=swap");
 
-*{
+* {
   animation: fade-in 0.5s ease-in-out;
-  font-family: 'Nunito', sans-serif;
+  font-family: "Nunito", sans-serif;
   overflow: hidden;
-  background: linear-gradient(45deg, rgb(45, 54, 76) 0%, rgb(37, 45, 63) 100%);
-
 }
-
 
 @keyframes fade-in {
   from {
@@ -22,7 +19,7 @@
   position: absolute;
   top: 45%;
   left: 50%;
-  transform: translate(-50%,-50%);
+  transform: translate(-50%, -50%);
 }
 
 #container {
@@ -53,7 +50,38 @@
   animation-iteration-count: infinite;
 }
 
-.form-container{
+#app-night {
+  background: -webkit-linear-gradient(to top, #283e51, #0a2342); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to top, #283e51, #0a2342);
+}
+
+#app-morning {
+  background: #f2994a; /* fallback for old browsers */
+  background: -webkit-linear-gradient(to top, #f2994a, #f2c94c); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to top, #f2994a, #f2c94c);
+}
+
+#app-noon {
+  background: #2980b9; /* fallback for old browsers */
+  background: -webkit-linear-gradient(to top, #6dd5fa, #2980b9); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to top,
+    #6dd5fa,
+    #2980b9
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+#app-evening {
+  background: #ff512f; /* fallback for old browsers */
+  background: -webkit-linear-gradient(to top, #f09819, #ff512f); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to top,
+    #f09819,
+    #ff512f
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.form-container {
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -81,43 +109,75 @@
   background: transparent;
 }
 
+.row-content {
+  display: inline-flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
 .form {
   display: flex;
   flex-direction: column;
   background: transparent;
-
 }
 
-.form label{
+.more {
+  margin-left: 0.8rem;
+  cursor: pointer;
+  filter: invert(97%) sepia(0%) saturate(0%) hue-rotate(183deg) brightness(91%) contrast(87%);
+}
+
+.more:hover {
+  filter: invert(96%) sepia(3%) saturate(146%) hue-rotate(278deg) brightness(114%) contrast(100%);
+}
+
+@media screen and (max-width: 600px) {
+  .form {
+    max-width: 280px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .row-content {
+    flex-direction: column;
+  }
+}
+
+.form label {
   margin-bottom: 10px;
   font-size: 2rem;
   font-weight: bold;
   background: transparent;
+}
 
+.form-footer {
+  margin-top: 1rem;
+  font-weight: bolder;
 }
 
 .inputan {
   border: none;
   outline: none;
   border-bottom: 1px solid white;
-  width: 400px;
   font-size: 2rem;
-  padding: .4rem;
+  padding: 0.4rem;
   font-weight: lighter;
   background: transparent;
   color: white;
 }
 
-.inputan:active, .inputan:focus, .inputan:-webkit-autofill{
+.inputan:active,
+.inputan:focus,
+.inputan:-webkit-autofill {
   background: transparent;
-
 }
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
-    transition: background-color 5000s ease-in-out 0s;
-    -webkit-text-fill-color: #ffffff
+  transition: background-color 5000s ease-in-out 0s;
+  -webkit-text-fill-color: #ffffff;
 }
 .content {
   display: flex;
@@ -132,7 +192,7 @@ input:-webkit-autofill:active {
   background: transparent;
 }
 
-.content h1{
+.content h1 {
   margin: 0;
 }
 
@@ -146,12 +206,14 @@ input:-webkit-autofill:active {
   text-align: center;
   width: 100%;
   background: transparent;
+  font-size: small;
 }
 
 .footer .quote {
   font-style: italic;
 }
 
-h1, p {
+h1,
+p {
   background: transparent;
 }
