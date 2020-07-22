@@ -3,6 +3,8 @@ import Particles from "react-particles-js";
 import "./App.css";
 import More from "./more.svg";
 import ReactTooltip from "react-tooltip";
+import { SnackbarProvider, useSnackbar } from "notistack";
+import socketIOClient from "socket.io-client";
 
 function getName() {
   const name = localStorage.getItem("myName");
@@ -148,8 +150,36 @@ function Content({ children }) {
   );
 }
 
+function MyApp() {
+  return (
+    <SnackbarProvider
+      maxSnack={4}
+      anchorOrigin={{
+        vertical: "bottom",
+        horizontal: "right",
+      }}
+    >
+      <App />
+    </SnackbarProvider>
+  );
+}
+
 function App() {
   const [name, setName] = useState("");
+  const { enqueueSnackbar } = useSnackbar();
+
+  useEffect(() => {
+    if (name) {
+      const interval = setInterval(() => {
+        const socket = socketIOClient("https://api-urspecial.herokuapp.com");
+        socket.on("tweet", (data) => {
+          enqueueSnackbar(data.text);
+        });
+      }, 3000);
+      return () => clearInterval(interval);
+    }
+  }, [name]);
+
   useEffect(() => {
     return setName(getName());
   }, []);
@@ -412,4 +442,4 @@ const Message = ({ h }) => {
   return <p>Hai!!</p>;
 };
 
-export default App;
+export default MyApp;
