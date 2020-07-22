@@ -94,10 +94,10 @@ function Main({ name }) {
         </h1>
         <div className="row-content">
           {h % 24 >= 19 && <h1>Selamat Malam, {name}</h1>}
-          {h % 24 >= 15 && h <= 19 && <h1>Selamat Sore, {name}</h1>}
-          {h % 24 >= 11 && h <= 15 && <h1>Selamat Siang, {name}</h1>}
-          {h % 24 >= 3 && h <= 11 && <h1>Selamat Pagi, {name}</h1>}
-          {h % 24 >= 0 && h <= 3 && <h1>Selamat Petang, {name}</h1>}
+          {h % 24 >= 3 && h % 24 < 11 && <h1>Selamat Pagi, {name}</h1>}
+          {h % 24 >= 11 && h % 24 < 15 && <h1>Selamat Siang, {name}</h1>}
+          {h % 24 >= 15 && h % 24 < 19 && <h1>Selamat Sore, {name}</h1>}
+          {h % 24 >= 0 && h % 24 < 3 && <h1>Selamat Petang, {name}</h1>}
           <img src={More} width="20px" alt="more" className="more" data-tip="React-tooltip" />
         </div>
         <ReactTooltip place="top" type="light" effect="float" multiline={true}>
@@ -134,26 +134,16 @@ function Content({ children }) {
         height: "100%",
       }}
     >
-      <div
-        style={{
-          position: "fixed !important",
-          top: 0,
-          left: 0,
-          width: "100%",
-          height: "100%",
-        }}
-      >
-        {h % 24 >= 19 || h % 24 < 3 ? (
-          <Night />
-        ) : h % 24 >= 3 && h % 24 < 11 ? (
-          <Morning />
-        ) : h % 24 >= 11 && h % 24 < 15 ? (
-          <Noon />
-        ) : (
-          h % 24 >= 15 && h % 24 < 19 && <Evening />
-        )}
-        <div>{children}</div>
-      </div>
+      {h % 24 >= 19 || h % 24 < 3 ? (
+        <Night />
+      ) : h % 24 >= 3 && h % 24 < 11 ? (
+        <Morning />
+      ) : h % 24 >= 11 && h % 24 < 15 ? (
+        <Noon />
+      ) : (
+        h % 24 >= 15 && h % 24 < 19 && <Evening />
+      )}
+      <div>{children}</div>
     </div>
   );
 }
